@@ -7,6 +7,7 @@ import { TemplateController } from './template.controller';
 @Module({
   imports: [TypeOrmModule.forFeature([Template])],
   controllers: [TemplateController],
-  providers: [TemplateService]
+  providers: [TemplateService],
+  exports: [TemplateService]
 })
 export class TemplateModule {}

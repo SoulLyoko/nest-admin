@@ -1,19 +1,21 @@
-import { ResponseDto } from 'src/common/dto/response.dto';
+import { ResponseDto } from '../common/dto/response.dto';
 
-export const responseSuccess = <T>(
-  data: any = null,
-  msg = '请求成功'
-): ResponseDto<T> => {
+export const responseSuccess = (data: any = null, message = '请求成功'): ResponseDto => {
   return {
-    code: 200,
-    msg,
+    code: 0,
+    success: true,
+    message,
+    timestamp: Date.now(),
     data
   };
 };
 
-export const responseFail = <T>(msg = '请求失败'): ResponseDto<T> => {
+export const responseFail = (message = '请求失败'): ResponseDto => {
   return {
-    code: 400,
-    msg
+    code: 1,
+    success: false,
+    message,
+    timestamp: Date.now(),
+    data: null
   };
 };

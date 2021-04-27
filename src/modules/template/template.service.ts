@@ -2,44 +2,37 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Template } from './entities/template.entity';
-import { CreateTemplateDto } from './dto/create-template.dto';
-import { UpdateTemplateDto } from './dto/update-template.dto';
-import { FindTemplateDto } from './dto/find-template.dto';
-import { PageTemplateDto } from './dto/page-template.dto';
-import { simpleCrud } from 'src/utils/crud';
+import { CreateTemplateDto, UpdateTemplateDto, FindTemplateDto, PageTemplateDto } from './dto/template.dto';
+import { findPage } from 'src/utils';
 
 @Injectable()
-export class TemplateService extends simpleCrud<Template> {
+export class TemplateService {
   constructor(
     @InjectRepository(Template)
-    templateRepository: Repository<Template>
-  ) {
-    super(templateRepository);
-  }
+    private repository: Repository<Template>
+  ) {}
 
   findAll(findTemplateDto: FindTemplateDto) {
-    return this._findAll(findTemplateDto);
+    return this.repository.find(findTemplateDto);
   }
 
   findPage(pageTemplateDto: PageTemplateDto) {
-    return this._findPage(pageTemplateDto, {
-      relations: ['dept', 'roles', 'job']
-    });
+    return findPage<Template>(this.repository, pageTemplateDto);
   }
 
   findOne(id: number) {
-    return this._findOne(id);
+    return this.repository.findOne(id);
   }
 
   create(createTemplateDto: CreateTemplateDto) {
-    return this._save(createTemplateDto);
+    return this.repository.save(createTemplateDto);
   }
 
   update(id: number, updateTemplateDto: UpdateTemplateDto) {
-    return this._update(id, updateTemplateDto);
+    return this.repository.update(id, updateTemplateDto);
   }
 
   remove(id: number) {
-    return this._delete(id);
+    return this.repository.delete(id);
   }
 }

@@ -1,12 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Allow, IsNotEmpty } from 'class-validator';
+import { IsNotEmpty } from 'class-validator';
 
-export class LoginAuthDto {
+export class LoginDto {
   @ApiProperty({ description: '用户名' })
   @IsNotEmpty()
   username: string;
 
-  @Allow()
+  @ApiProperty({ description: '密码' })
   @IsNotEmpty()
   password: string;
 }

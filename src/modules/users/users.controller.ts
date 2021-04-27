@@ -1,75 +1,46 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-  Query,
-  UseGuards
-} from '@nestjs/common';
-import {
-  ApiTags,
-  ApiExtraModels,
-  ApiOperation,
-  ApiBearerAuth
-} from '@nestjs/swagger';
-import { ApiResponseSuccess } from 'src/common/decorators/api-response.decorator';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { Class, Handler } from 'src/common/decorators/controller.decorator';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { FindUserDto } from './dto/find-user.dto';
-import { PageUserDto } from './dto/page-user.dto';
-import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
+import { CreateUserDto, UpdateUserDto, FindUserDto, PageUserDto } from './dto/user.dto';
 
-@Controller('users')
-@ApiTags('Users 用户管理')
-@ApiExtraModels(User)
+@Controller('user')
+@Class({ tag: '用户管理', model: User, isAuth: false })
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  @UseGuards(JwtAuthGuard)
-  @ApiOperation({ summary: '获取全部数据' })
-  @ApiResponseSuccess(User, 'list')
-  @ApiBearerAuth()
+  @Handler({ tag: '获取全部数据', model: User, resType: 'list' })
   findAll(@Query() findUserDto: FindUserDto) {
     return this.usersService.findAll(findUserDto);
   }
 
-  @Get('/page')
-  @ApiOperation({ summary: '获取分页数据' })
-  @ApiResponseSuccess(User, 'page')
+  @Get('page')
+  @Handler({ tag: '获取分页数据', model: User, resType: 'page' })
   findPage(@Query() pageUserDto: PageUserDto) {
     return this.usersService.findPage(pageUserDto);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: '获取单条数据' })
-  @ApiResponseSuccess(User)
+  @Handler({ tag: '获取单条数据', model: User })
   findOne(@Param('id') id: string) {
     return this.usersService.findOne(+id);
   }
 
   @Post()
-  @ApiOperation({ summary: '新增数据' })
-  @ApiResponseSuccess()
+  @Handler({ tag: '新增数据' })
   create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: '更新数据' })
-  @ApiResponseSuccess()
+  @Handler({ tag: '更新数据' })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return this.usersService.update(+id, updateUserDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: '删除数据' })
-  @ApiResponseSuccess()
+  @Handler({ tag: '删除数据' })
   remove(@Param('id') id: string) {
     return this.usersService.remove(+id);
   }

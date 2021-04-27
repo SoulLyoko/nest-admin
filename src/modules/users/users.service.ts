@@ -1,54 +1,57 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { FindOneOptions, Repository } from 'typeorm';
+import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
-import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
-import { FindUserDto } from './dto/find-user.dto';
-import { PageUserDto } from './dto/page-user.dto';
-import { simpleCrud, Like } from 'src/utils/crud';
+import { CreateUserDto, UpdateUserDto, FindUserDto, PageUserDto } from './dto/user.dto';
+import { findPage, ormLike, Exception } from 'src/utils';
 
 @Injectable()
-export class UsersService extends simpleCrud<User> {
+export class UsersService {
   constructor(
     @InjectRepository(User)
-    userRepository: Repository<User>
-  ) {
-    super(userRepository);
-  }
+    private userRepository: Repository<User>
+  ) {}
 
-  where(dto: FindUserDto) {
+  where(findUserDto: FindUserDto) {
     return {
-      ...dto,
-      username: Like(dto.username),
-      nickName: Like(dto.nickName)
+      ...findUserDto,
+      username: ormLike(findUserDto.username),
+      nickName: ormLike(findUserDto.nickName)
     };
   }
 
   findAll(findUserDto: FindUserDto) {
-    return this._findAll(this.where(findUserDto));
+    return this.userRepository.find(this.where(findUserDto));
   }
 
   findPage(pageUserDto: PageUserDto) {
-    return this._findPage(pageUserDto, {
+    return findPage<User>(this.userRepository, pageUserDto, {
       relations: ['dept', 'roles', 'job']
     });
   }
 
-  findOne(optionsOrId: FindOneOptions | number) {
-    return this._findOne(optionsOrId);
+  findOne(id: number) {
+    return this.userRepository.findOne(id);
   }
 
-  create(createUserDto: CreateUserDto) {
-    return this._save(createUserDto);
+  findByName(username: string) {
+    return this.userRepository.findOne({ username });
+  }
+
+  async create(createUserDto: CreateUserDto) {
+    const user = await this.findByName(createUserDto.username);
+    if (user) {
+      throw new Exception('已存在相同的用户名');
+    }
+    return this.userRepository.save(createUserDto);
   }
 
   update(id: number, updateUserDto: UpdateUserDto) {
     delete updateUserDto.roleIds;
-    return this._update(id, updateUserDto);
+    return this.userRepository.update(id, updateUserDto);
   }
 
   remove(id: number) {
-    return this._delete(id);
+    return this.userRepository.delete(id);
   }
 }

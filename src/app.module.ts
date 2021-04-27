@@ -10,15 +10,7 @@ import { RolesModule } from './modules/roles/roles.module';
 import { JobsModule } from './modules/jobs/jobs.module';
 
 @Module({
-  imports: [
-    TypeOrmModule.forRoot(),
-    AuthModule,
-    TemplateModule,
-    UsersModule,
-    DeptsModule,
-    RolesModule,
-    JobsModule
-  ],
+  imports: [TypeOrmModule.forRoot(), AuthModule, TemplateModule, UsersModule, DeptsModule, RolesModule, JobsModule],
   controllers: [AppController]
 })
 export class AppModule {

@@ -5,10 +5,7 @@ import { ResponseDto, pageDataDto } from '../dto/response.dto';
 /**
  * 返回成功
  */
-export const ApiResponseSuccess = <TModel extends Type<any>>(
-  model?: TModel,
-  type?: 'list' | 'page'
-) => {
+export const ApiResponseSuccess = <TModel extends Type<any>>(model?: TModel, type?: 'list' | 'page') => {
   const getDataDto = (type: 'list' | 'page') => {
     switch (type) {
       case 'list':
@@ -28,10 +25,7 @@ export const ApiResponseSuccess = <TModel extends Type<any>>(
   return applyDecorators(
     ApiOkResponse({
       schema: {
-        allOf: [
-          { $ref: getSchemaPath(ResponseDto) },
-          model ? { properties: { data: getDataDto(type) } } : {}
-        ]
+        allOf: [{ $ref: getSchemaPath(ResponseDto) }, model ? { properties: { data: getDataDto(type) } } : {}]
       }
     })
   );

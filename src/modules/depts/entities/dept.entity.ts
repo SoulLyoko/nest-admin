@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  PrimaryGeneratedColumn,
-  Tree,
-  TreeParent,
-  TreeChildren
-} from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, Tree, TreeParent, TreeChildren } from 'typeorm';
 import { CommonColmunEntity } from 'src/common/entities/common-column.entities';
 
 @Entity('sys_dept')

@@ -1,11 +1,4 @@
-import {
-  Entity,
-  Column,
-  OneToOne,
-  JoinColumn,
-  JoinTable,
-  ManyToMany
-} from 'typeorm';
+import { Entity, Column, OneToOne, JoinColumn, JoinTable, ManyToMany } from 'typeorm';
 import { Allow, IsNotEmpty } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CommonColmunEntity } from 'src/common/entities/common-column.entities';
@@ -17,7 +10,7 @@ import { GenderEnum } from 'src/common/enums/gender.enum';
 @Entity('sys_user')
 export class User extends CommonColmunEntity {
   @ApiProperty({ description: '用户名' })
-  @Column({ comment: '用户名' })
+  @Column({ comment: '用户名', unique: true })
   @IsNotEmpty()
   username: string;
 
@@ -32,7 +25,7 @@ export class User extends CommonColmunEntity {
   nickName?: string;
 
   @ApiProperty({ description: '性别', enum: GenderEnum })
-  @Column({ comment: '性别', nullable: true, enum: GenderEnum })
+  @Column({ comment: '性别', nullable: true })
   @Allow()
   sex?: string;
 

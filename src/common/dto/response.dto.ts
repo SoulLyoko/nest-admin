@@ -1,13 +1,19 @@
 import { ApiProperty } from '@nestjs/swagger';
 
-export class ResponseDto<T> {
+export class ResponseDto {
   @ApiProperty()
   code: number;
 
   @ApiProperty()
-  msg: string;
+  message: string;
 
-  data?: T | T[];
+  @ApiProperty()
+  timestamp: number;
+
+  @ApiProperty()
+  success: boolean;
+
+  data: any;
 }
 
 export class pageDataDto {

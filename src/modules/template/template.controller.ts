@@ -1,69 +1,46 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Put,
-  Delete,
-  Body,
-  Param,
-  Query
-} from '@nestjs/common';
-import { ApiTags, ApiExtraModels, ApiOperation } from '@nestjs/swagger';
-import { ApiResponseSuccess } from 'src/common/decorators/api-response.decorator';
+import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
+import { Class, Handler } from 'src/common/decorators/controller.decorator';
 import { Template } from './entities/template.entity';
 import { TemplateService } from './template.service';
-import { CreateTemplateDto } from './dto/create-template.dto';
-import { UpdateTemplateDto } from './dto/update-template.dto';
-import { FindTemplateDto } from './dto/find-template.dto';
-import { PageTemplateDto } from './dto/page-template.dto';
+import { CreateTemplateDto, UpdateTemplateDto, FindTemplateDto, PageTemplateDto } from './dto/template.dto';
 
-@ApiTags('Template')
 @Controller('template')
-@ApiExtraModels(Template)
+@Class({ tag: '模板', model: Template })
 export class TemplateController {
   constructor(private readonly templateService: TemplateService) {}
 
   @Get()
-  @ApiOperation({ summary: '获取全部数据' })
-  @ApiResponseSuccess(Template, 'list')
+  @Handler({ tag: '获取全部数据', model: Template, resType: 'list' })
   findAll(@Query() findTemplateDto: FindTemplateDto) {
     return this.templateService.findAll(findTemplateDto);
   }
 
   @Get('/page')
-  @ApiOperation({ summary: '获取分页数据' })
-  @ApiResponseSuccess(Template, 'page')
+  @Handler({ tag: '获取分页数据', model: Template, resType: 'page' })
   findPage(@Query() pageTemplateDto: PageTemplateDto) {
     return this.templateService.findPage(pageTemplateDto);
   }
 
   @Get(':id')
-  @ApiOperation({ summary: '获取单条数据' })
-  @ApiResponseSuccess(Template)
+  @Handler({ tag: '获取单条数据', model: Template })
   findOne(@Param('id') id: string) {
     return this.templateService.findOne(+id);
   }
 
   @Post()
-  @ApiOperation({ summary: '新增数据' })
-  @ApiResponseSuccess()
+  @Handler({ tag: '新增数据' })
   create(@Body() createTemplateDto: CreateTemplateDto) {
     return this.templateService.create(createTemplateDto);
   }
 
   @Put(':id')
-  @ApiOperation({ summary: '更新数据' })
-  @ApiResponseSuccess()
-  update(
-    @Param('id') id: string,
-    @Body() updateTemplateDto: UpdateTemplateDto
-  ) {
+  @Handler({ tag: '更新数据' })
+  update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
     return this.templateService.update(+id, updateTemplateDto);
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: '删除数据' })
-  @ApiResponseSuccess()
+  @Handler({ tag: '删除数据' })
   remove(@Param('id') id: string) {
     return this.templateService.remove(+id);
   }

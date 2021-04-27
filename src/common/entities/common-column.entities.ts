@@ -1,11 +1,6 @@
-import {
-  Column,
-  CreateDateColumn,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn
-} from 'typeorm';
+import { BeforeInsert, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
-import * as dayjs from 'dayjs';
+import { formatDate } from 'src/utils';
 
 export class CommonColmunEntity {
   @ApiProperty({ description: '主键ID' })
@@ -19,10 +14,10 @@ export class CommonColmunEntity {
     nullable: true,
     transformer: {
       to: (value) => value,
-      from: (value) => dayjs(value).format('YYYY-MM-DD HH:mm:ss')
+      from: (value) => formatDate(value)
     }
   })
-  createTime: string;
+  createAt: string;
 
   @ApiProperty({ description: '修改时间' })
   @UpdateDateColumn({
@@ -31,16 +26,30 @@ export class CommonColmunEntity {
     nullable: true,
     transformer: {
       to: (value) => value,
-      from: (value) => dayjs(value).format('YYYY-MM-DD HH:mm:ss')
+      from: (value) => formatDate(value)
     }
   })
-  updateTime: string;
+  updateAt: string;
 
   @ApiProperty({ description: '创建用户' })
-  @Column({ comment: '创建用户', nullable: true })
+  @Column({
+    comment: '创建用户',
+    nullable: true,
+    transformer: {
+      to: (value) => 'admin',
+      from: (value) => value
+    }
+  })
   createBy: string;
 
   @ApiProperty({ description: '修改用户' })
-  @Column({ comment: '修改用户', nullable: true })
+  @Column({
+    comment: '修改用户',
+    nullable: true,
+    transformer: {
+      to: (value) => 'admin',
+      from: (value) => value
+    }
+  })
   updateBy: string;
 }
