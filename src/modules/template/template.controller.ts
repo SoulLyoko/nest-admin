@@ -5,7 +5,7 @@ import { TemplateService } from './template.service';
 import { CreateTemplateDto, UpdateTemplateDto, FindTemplateDto, PageTemplateDto } from './dto/template.dto';
 
 @Controller('template')
-@Class({ tag: '模板', model: Template })
+@Class({ tag: 'template', model: Template })
 export class TemplateController {
   constructor(private readonly templateService: TemplateService) {}
 

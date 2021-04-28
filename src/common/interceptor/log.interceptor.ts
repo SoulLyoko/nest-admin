@@ -20,8 +20,8 @@ export class LogInterceptor implements NestInterceptor {
       tap(() => {
         Logger.log(`${method} ${url} ${Date.now() - now}ms`, context.getClass().name);
       }),
-      catchError((err) => {
-        Logger.error(`${method} ${url} ${Date.now() - now}ms`, err, context.getClass().name);
+      catchError((err: Error) => {
+        Logger.error(`${method} ${url} ${Date.now() - now}ms`, err.stack, context.getClass().name);
         return throwError(err);
       })
     );
