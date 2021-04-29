@@ -9,8 +9,18 @@ import { ApiResponseSuccess } from './api-response.decorator';
  * @param model 数据模型
  * @param isAuth 是否需要认证，true：所有响应函数都需要认证，false：可单独设置响应函数是否需要认证
  */
-export const Class = ({ tag = '', model, isAuth = true }: { tag?: string; model?: any; isAuth?: boolean }) => {
-  const args = [ApiTags(tag), SetMetadata('log', tag)];
+export const Class = ({
+  tag = '',
+  log,
+  model,
+  isAuth = true
+}: {
+  tag?: string;
+  log?: string;
+  model?: any;
+  isAuth?: boolean;
+}) => {
+  const args = [ApiTags(tag), SetMetadata('log', log ?? tag)];
   model && args.push(ApiExtraModels(model));
   isAuth && args.push(UseGuards(JwtAuthGuard), ApiBearerAuth());
   return applyDecorators(...args);
@@ -25,16 +35,18 @@ export const Class = ({ tag = '', model, isAuth = true }: { tag?: string; model?
  */
 export const Handler = ({
   tag = '',
+  log,
   model,
   resType,
   isAuth = false
 }: {
   tag?: string;
+  log?: string;
   model?: any;
   resType?: 'list' | 'page';
   isAuth?: boolean;
 }) => {
-  const args = [ApiOperation({ summary: tag }), ApiResponseSuccess(model, resType), SetMetadata('log', tag)];
+  const args = [ApiOperation({ summary: tag }), ApiResponseSuccess(model, resType), SetMetadata('log', log ?? tag)];
   isAuth && args.push(UseGuards(JwtAuthGuard), ApiBearerAuth());
   return applyDecorators(...args);
 };

@@ -2,6 +2,9 @@ import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'type
 import { ApiProperty } from '@nestjs/swagger';
 import { formatDate } from 'src/utils';
 
+/**
+ * 公共列实体
+ */
 export class CommonColmunEntity {
   @ApiProperty({ description: '主键ID' })
   @PrimaryGeneratedColumn()

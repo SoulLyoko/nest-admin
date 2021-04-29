@@ -3,7 +3,7 @@ import * as Dayjs from 'dayjs';
 export const dayjs = Dayjs;
 
 /**
- *
+ * 日期格式化
  * @param date 日期
  * @param format 格式 'date' | 'time' | 'datetime' | string(eg:'YYYY-MM-DD HH:mm:ss')
  */

@@ -1,6 +1,9 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Allow } from 'class-validator';
 
+/**
+ * 分页查询对象
+ */
 export class PageDto {
   @Allow()
   @ApiProperty({ description: '页数', default: 1 })

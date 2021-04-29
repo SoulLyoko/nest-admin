@@ -3,7 +3,7 @@ import { ApiOkResponse, getSchemaPath } from '@nestjs/swagger';
 import { ResponseDto, pageDataDto } from '../dto/response.dto';
 
 /**
- * 返回成功
+ * 返回成功装饰器
  */
 export const ApiResponseSuccess = <TModel extends Type<any>>(model?: TModel, type?: 'list' | 'page') => {
   const getDataDto = (type: 'list' | 'page') => {

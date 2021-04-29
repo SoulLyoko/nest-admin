@@ -4,8 +4,11 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import { LogService } from 'src/modules/log/log.service';
 
+/**
+ * 统一日志拦截
+ */
 @Injectable()
-export class LogInterceptor implements NestInterceptor {
+export class LoggingInterceptor implements NestInterceptor {
   constructor(private logService: LogService) {}
 
   async intercept(context: ExecutionContext, next: CallHandler): Promise<Observable<any>> {
@@ -20,14 +23,14 @@ export class LogInterceptor implements NestInterceptor {
       user,
       body
     } = request;
-    const defaultLogInfo = {
+    const defaultLogData = {
       status: '0',
-      name: `${classTag}${classTag && handlerTag ? '-' : ''}${handlerTag}`,
+      name: `${classTag}${classTag && handlerTag && '-'}${handlerTag}`,
       method,
       url,
       username: user?.username,
       userAgent,
-      ip: host,
+      ip: host?.split(':')?.[0] ?? '',
       params: JSON.stringify(body)
     };
     const now = Date.now();
@@ -35,15 +38,17 @@ export class LogInterceptor implements NestInterceptor {
       tap(() => {
         Logger.log(`${method} ${url} ${Date.now() - now}ms`, context.getClass().name);
         if (method === 'GET') return;
+        // 插入到数据库
         this.logService.create({
-          ...defaultLogInfo,
+          ...defaultLogData,
           time: `${Date.now() - now}ms`
         });
       }),
       catchError((err: Error) => {
         Logger.error(`${method} ${url} ${Date.now() - now}ms`, err.stack, context.getClass().name);
+        // 插入到数据库
         this.logService.create({
-          ...defaultLogInfo,
+          ...defaultLogData,
           status: '1',
           message: err.message,
           time: `${Date.now() - now}ms`

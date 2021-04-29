@@ -59,7 +59,7 @@ export class User extends CommonColmunEntity {
   @Allow()
   jobId?: Job['id'];
 
-  @ApiProperty({ description: '角色ids', default: [] })
+  @ApiProperty({ description: '角色ids' })
   @Allow()
   roleIds?: string;
 

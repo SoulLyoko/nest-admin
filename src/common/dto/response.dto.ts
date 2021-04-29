@@ -1,5 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 
+/**
+ * 响应对象
+ */
 export class ResponseDto {
   @ApiProperty()
   code: number;
@@ -16,6 +19,9 @@ export class ResponseDto {
   data: any;
 }
 
+/**
+ * 分页数据对象
+ */
 export class pageDataDto {
   @ApiProperty()
   total: number;
