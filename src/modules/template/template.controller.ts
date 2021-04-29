@@ -1,8 +1,8 @@
 import { Controller, Get, Post, Put, Delete, Body, Param, Query } from '@nestjs/common';
 import { Class, Handler } from 'src/common/decorators/controller.decorator';
+import { CreateTemplateDto, UpdateTemplateDto, FindTemplateDto, PageTemplateDto } from './dto/template.dto';
 import { Template } from './entities/template.entity';
 import { TemplateService } from './template.service';
-import { CreateTemplateDto, UpdateTemplateDto, FindTemplateDto, PageTemplateDto } from './dto/template.dto';
 
 @Controller('template')
 @Class({ tag: 'template', model: Template })
@@ -24,7 +24,7 @@ export class TemplateController {
   @Get(':id')
   @Handler({ tag: '获取单条数据', model: Template })
   findOne(@Param('id') id: string) {
-    return this.templateService.findOne(+id);
+    return this.templateService.findOne(id);
   }
 
   @Post()
@@ -36,12 +36,12 @@ export class TemplateController {
   @Put(':id')
   @Handler({ tag: '更新数据' })
   update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
-    return this.templateService.update(+id, updateTemplateDto);
+    return this.templateService.update(id, updateTemplateDto);
   }
 
-  @Delete(':id')
+  @Delete(':ids')
   @Handler({ tag: '删除数据' })
-  remove(@Param('id') id: string) {
-    return this.templateService.remove(+id);
+  remove(@Param('ids') ids: string) {
+    return this.templateService.remove(ids);
   }
 }

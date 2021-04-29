@@ -1,11 +1,11 @@
-import { BeforeInsert, Column, CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { CreateDateColumn, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { formatDate } from 'src/utils';
 
 export class CommonColmunEntity {
   @ApiProperty({ description: '主键ID' })
   @PrimaryGeneratedColumn()
-  id: number;
+  id: string;
 
   @ApiProperty({ description: '创建时间' })
   @CreateDateColumn({
@@ -17,11 +17,11 @@ export class CommonColmunEntity {
       from: (value) => formatDate(value)
     }
   })
-  createAt: string;
+  createAt?: string;
 
-  @ApiProperty({ description: '修改时间' })
+  @ApiProperty({ description: '更新时间' })
   @UpdateDateColumn({
-    comment: '修改时间',
+    comment: '更新时间',
     type: 'datetime',
     nullable: true,
     transformer: {
@@ -29,27 +29,5 @@ export class CommonColmunEntity {
       from: (value) => formatDate(value)
     }
   })
-  updateAt: string;
-
-  @ApiProperty({ description: '创建用户' })
-  @Column({
-    comment: '创建用户',
-    nullable: true,
-    transformer: {
-      to: (value) => 'admin',
-      from: (value) => value
-    }
-  })
-  createBy: string;
-
-  @ApiProperty({ description: '修改用户' })
-  @Column({
-    comment: '修改用户',
-    nullable: true,
-    transformer: {
-      to: (value) => 'admin',
-      from: (value) => value
-    }
-  })
-  updateBy: string;
+  updateAt?: string;
 }

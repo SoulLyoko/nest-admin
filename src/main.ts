@@ -6,20 +6,21 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { TransformInterceptor } from './common/interceptor/transform.interceptor';
 import { LogInterceptor } from './common/interceptor/log.interceptor';
+import { LogService } from './modules/log/log.service';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
   const configService = app.get(ConfigService);
-  const port = configService.get(`app.port`);
-  const prefix = configService.get(`app.prefix`);
+  const port = configService.get('app.port');
+  const prefix = configService.get('app.prefix');
 
   //设置统一前缀
   app.setGlobalPrefix(prefix);
   //注册参数校验管道
   app.useGlobalPipes(new ValidationPipe({ whitelist: true }));
   //注册拦截器
-  app.useGlobalInterceptors(new TransformInterceptor(), new LogInterceptor());
+  app.useGlobalInterceptors(new TransformInterceptor(), new LogInterceptor(app.get(LogService)));
   //注册过滤器
   app.useGlobalFilters(new HttpExceptionFilter());
 

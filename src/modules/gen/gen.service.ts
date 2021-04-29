@@ -16,7 +16,7 @@ export class GenService {
     this.moduleName = moduleName;
     this.makeDir();
     ['entity', 'dto', 'service', 'controller', 'module'].forEach((type) => this.writeFile(type));
-    return module;
+    return `模块'${moduleName}'代码生成成功，请手动修改数据表名后，再在'src/modules/index.ts'中导出模块`;
   }
 
   makeDir() {

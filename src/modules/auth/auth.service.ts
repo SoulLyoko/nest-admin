@@ -1,18 +1,19 @@
 import { Injectable } from '@nestjs/common';
-import { UsersService } from '../users/users.service';
+import { UserService } from '../user/user.service';
 import { JwtService } from '@nestjs/jwt';
+import { Exception } from 'src/utils';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly usersService: UsersService, private readonly jwtService: JwtService) {}
+  constructor(private readonly userService: UserService, private readonly jwtService: JwtService) {}
 
   async validateUser(username: string, pass: string): Promise<any> {
-    const user = await this.usersService.findByName(username);
+    const user = await this.userService.findByName(username);
     if (user && user.password === pass) {
       const { password, ...result } = user;
       return result;
     }
-    return null;
+    throw new Exception('用户名或密码错误');
   }
 
   async login(user: any) {

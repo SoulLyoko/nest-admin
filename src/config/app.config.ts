@@ -1,10 +1,11 @@
 import { registerAs } from '@nestjs/config';
 
-const { APP_PORT, APP_PREFIX, JWT_SECRET, JWT_EXPIRES_IN } = process.env;
+const { APP_PORT, APP_PREFIX } = process.env;
 
+/**
+ * 应用基础配置
+ */
 export default registerAs('app', () => ({
   port: parseInt(APP_PORT),
-  prefix: APP_PREFIX,
-  secret: JWT_SECRET,
-  expiresIn: JWT_EXPIRES_IN
+  prefix: APP_PREFIX
 }));

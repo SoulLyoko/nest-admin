@@ -1,15 +1,10 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import loadConfig from './config';
 import { Connection } from 'typeorm';
+import { ConfigModule, ConfigService } from '@nestjs/config';
 import { AppController } from './app.controller';
-import { AuthModule } from './modules/auth/auth.module';
-import { GenModule } from './modules/gen/gen.module';
-import { UsersModule } from './modules/users/users.module';
-import { DeptsModule } from './modules/depts/depts.module';
-import { RolesModule } from './modules/roles/roles.module';
-import { JobsModule } from './modules/jobs/jobs.module';
+import loadConfig from './config';
+import Modules from './modules';
 
 @Module({
   imports: [
@@ -26,12 +21,7 @@ import { JobsModule } from './modules/jobs/jobs.module';
       },
       inject: [ConfigService]
     }),
-    AuthModule,
-    GenModule,
-    UsersModule,
-    DeptsModule,
-    RolesModule,
-    JobsModule
+    ...Modules
   ],
   controllers: [AppController]
 })
