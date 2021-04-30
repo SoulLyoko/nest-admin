@@ -4,7 +4,7 @@ import { PageDto } from 'src/common/dto/page.dto';
 
 export class CreateJobDto extends OmitType(Job, ['id']) {}
 
-export class UpdateJobDto extends OmitType(CreateJobDto, []) {}
+export class UpdateJobDto extends CreateJobDto {}
 
 export class FindJobDto extends PartialType(PickType(Job, ['name'])) {}
 

@@ -15,7 +15,7 @@ export class JobController {
     return this.jobService.findAll(findJobDto);
   }
 
-  @Get('/page')
+  @Get('page')
   @Handler({ tag: '获取分页数据', model: Job, resType: 'page' })
   findPage(@Query() pageJobDto: PageJobDto) {
     return this.jobService.findPage(pageJobDto);
@@ -24,7 +24,7 @@ export class JobController {
   @Get(':id')
   @Handler({ tag: '获取单条数据', model: Job })
   findOne(@Param('id') id: string) {
-    return this.jobService.findOne(id);
+    return this.jobService.findOne(+id);
   }
 
   @Post()
@@ -36,7 +36,7 @@ export class JobController {
   @Put(':id')
   @Handler({ tag: '更新数据' })
   update(@Param('id') id: string, @Body() updateJobDto: UpdateJobDto) {
-    return this.jobService.update(id, updateJobDto);
+    return this.jobService.update(+id, updateJobDto);
   }
 
   @Delete(':ids')

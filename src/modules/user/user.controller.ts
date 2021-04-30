@@ -24,7 +24,7 @@ export class UserController {
   @Get(':id')
   @Handler({ tag: '获取单条数据', model: User })
   findOne(@Param('id') id: string) {
-    return this.userService.findOne(id);
+    return this.userService.findOne(+id);
   }
 
   @Post()
@@ -36,7 +36,7 @@ export class UserController {
   @Put(':id')
   @Handler({ tag: '更新数据' })
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return this.userService.update(id, updateUserDto);
+    return this.userService.update(+id, updateUserDto);
   }
 
   @Delete(':ids')

@@ -9,30 +9,30 @@ import { findPage } from 'src/utils';
 export class LogService {
   constructor(
     @InjectRepository(Log)
-    private repository: Repository<Log>
+    private logRepository: Repository<Log>
   ) {}
 
   findAll(findLogDto: FindLogDto) {
-    return this.repository.find(findLogDto);
+    return this.logRepository.find(findLogDto);
   }
 
   findPage(pageLogDto: PageLogDto) {
-    return findPage<Log>(this.repository, pageLogDto);
+    return findPage<Log>(this.logRepository, pageLogDto);
   }
 
-  findOne(id: string) {
-    return this.repository.findOne(id);
+  findOne(id: number) {
+    return this.logRepository.findOne(id);
   }
 
   create(createLogDto: CreateLogDto) {
-    return this.repository.save(createLogDto);
+    return this.logRepository.save(createLogDto);
   }
 
-  update(id: string, updateLogDto: UpdateLogDto) {
-    return this.repository.update(id, updateLogDto);
+  update(id: number, updateLogDto: UpdateLogDto) {
+    return this.logRepository.update(id, updateLogDto);
   }
 
   remove(ids: string) {
-    return this.repository.delete(ids.split(','));
+    return this.logRepository.delete(ids.split(','));
   }
 }

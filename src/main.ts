@@ -34,7 +34,6 @@ async function bootstrap() {
   SwaggerModule.setup('doc', app, document);
 
   await app.listen(port, () => {
-    console.log('🚀 ~ file: main.ts ~ line 37 ~ awaitapp.listen ~ app', app);
     Logger.log(`Server started at:http://127.0.0.1:${port}`);
     Logger.log(`Swagger started at:http://127.0.0.1:${port}/doc`);
   });

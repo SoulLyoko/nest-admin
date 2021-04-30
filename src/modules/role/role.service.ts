@@ -9,27 +9,27 @@ import { Exception, findPage } from 'src/utils';
 export class RoleService {
   constructor(
     @InjectRepository(Role)
-    private repository: Repository<Role>
+    private roleRepository: Repository<Role>
   ) {}
 
   findAll(findRoleDto: FindRoleDto) {
-    return this.repository.find(findRoleDto);
+    return this.roleRepository.find(findRoleDto);
   }
 
   findPage(pageRoleDto: PageRoleDto) {
-    return findPage<Role>(this.repository, pageRoleDto);
+    return findPage<Role>(this.roleRepository, pageRoleDto);
   }
 
-  findOne(id: string) {
-    return this.repository.findOne(id);
+  findOne(id: number) {
+    return this.roleRepository.findOne(id);
   }
 
   findByCode(code: string) {
-    return this.repository.findOne({ code });
+    return this.roleRepository.findOne({ code });
   }
 
-  findByIds(ids: string) {
-    return this.repository.find({ id: In(ids ? (ids + '').split(',') : []) });
+  findByIds(ids: number[]) {
+    return this.roleRepository.find({ id: In(ids) });
   }
 
   async create(createRoleDto: CreateRoleDto) {
@@ -37,14 +37,14 @@ export class RoleService {
     if (role) {
       throw new Exception('已存在相同的角色标识');
     }
-    return this.repository.save(createRoleDto);
+    return this.roleRepository.save(createRoleDto);
   }
 
-  update(id: string, updateRoleDto: UpdateRoleDto) {
-    return this.repository.update(id, updateRoleDto);
+  update(id: number, updateRoleDto: UpdateRoleDto) {
+    return this.roleRepository.update(id, updateRoleDto);
   }
 
   remove(ids: string) {
-    return this.repository.delete(ids.split(','));
+    return this.roleRepository.delete(ids.split(','));
   }
 }

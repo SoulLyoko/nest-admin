@@ -1,13 +1,14 @@
-import { Entity, Column, TreeParent, TreeChildren, Tree } from 'typeorm';
+import { Entity, Column, TreeParent, TreeChildren, Tree, ManyToMany } from 'typeorm';
 import { Allow } from 'class-validator';
 import { ApiProperty } from '@nestjs/swagger';
 import { CommonColmunEntity } from 'src/common/entities/common-column.entities';
 
 @Entity('sys_dept')
-@Tree('closure-table')
+@Tree('materialized-path')
 export class Dept extends CommonColmunEntity {
-  @ApiProperty({ description: '上级ID' })
-  @Column({ comment: '上级ID', default: 0 })
+  @ApiProperty({ description: '上级ID', default: null })
+  @Column({ nullable: true })
+  @Allow()
   parentId: number;
 
   @ApiProperty({ description: '部门名称' })
@@ -26,6 +27,7 @@ export class Dept extends CommonColmunEntity {
   remark?: string;
 
   @TreeParent()
+  // @ManyToMany(() => Dept, { onDelete: 'CASCADE' })
   parent: Dept;
 
   @TreeChildren()

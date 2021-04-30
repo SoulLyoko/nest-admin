@@ -4,7 +4,7 @@ import { PageDto } from 'src/common/dto/page.dto';
 
 export class CreateRoleDto extends OmitType(Role, ['id']) {}
 
-export class UpdateRoleDto extends OmitType(CreateRoleDto, []) {}
+export class UpdateRoleDto extends CreateRoleDto {}
 
 export class FindRoleDto extends PartialType(PickType(Role, ['name'])) {}
 

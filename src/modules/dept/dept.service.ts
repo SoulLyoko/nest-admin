@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
+import { TreeRepository } from 'typeorm';
 import { CreateDeptDto, UpdateDeptDto, FindDeptDto, PageDeptDto } from './dto/dept.dto';
 import { Dept } from './entities/dept.entity';
 import { findPage } from 'src/utils';
@@ -9,30 +9,36 @@ import { findPage } from 'src/utils';
 export class DeptService {
   constructor(
     @InjectRepository(Dept)
-    private repository: Repository<Dept>
+    private deptRepository: TreeRepository<Dept>
   ) {}
 
+  findTree() {
+    return this.deptRepository.findTrees();
+  }
+
   findAll(findDeptDto: FindDeptDto) {
-    return this.repository.find(findDeptDto);
+    return this.deptRepository.find(findDeptDto);
   }
 
   findPage(pageDeptDto: PageDeptDto) {
-    return findPage<Dept>(this.repository, pageDeptDto);
+    return findPage<Dept>(this.deptRepository, pageDeptDto);
   }
 
-  findOne(id: string) {
-    return this.repository.findOne(id);
+  findOne(id: number) {
+    return this.deptRepository.findOne(id);
   }
 
-  create(createDeptDto: CreateDeptDto) {
-    return this.repository.save(createDeptDto);
+  async create(createDeptDto: CreateDeptDto) {
+    const parent = await this.findOne(createDeptDto.parentId);
+    return this.deptRepository.save({ ...createDeptDto, parent: parent || null });
   }
 
-  update(id: string, updateDeptDto: UpdateDeptDto) {
-    return this.repository.update(id, updateDeptDto);
+  async update(id: number, updateDeptDto: UpdateDeptDto) {
+    const parent = await this.findOne(updateDeptDto.parentId);
+    return this.deptRepository.update(id, { ...updateDeptDto, parent: parent || null });
   }
 
   remove(ids: string) {
-    return this.repository.delete(ids.split(','));
+    return this.deptRepository.delete(ids.split(','));
   }
 }

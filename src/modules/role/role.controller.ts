@@ -15,7 +15,7 @@ export class RoleController {
     return this.roleService.findAll(findRoleDto);
   }
 
-  @Get('/page')
+  @Get('page')
   @Handler({ tag: '获取分页数据', model: Role, resType: 'page' })
   findPage(@Query() pageRoleDto: PageRoleDto) {
     return this.roleService.findPage(pageRoleDto);
@@ -24,7 +24,7 @@ export class RoleController {
   @Get(':id')
   @Handler({ tag: '获取单条数据', model: Role })
   findOne(@Param('id') id: string) {
-    return this.roleService.findOne(id);
+    return this.roleService.findOne(+id);
   }
 
   @Post()
@@ -36,7 +36,7 @@ export class RoleController {
   @Put(':id')
   @Handler({ tag: '更新数据' })
   update(@Param('id') id: string, @Body() updateRoleDto: UpdateRoleDto) {
-    return this.roleService.update(id, updateRoleDto);
+    return this.roleService.update(+id, updateRoleDto);
   }
 
   @Delete(':ids')

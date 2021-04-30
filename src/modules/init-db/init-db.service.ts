@@ -35,7 +35,7 @@ export class InitDbService {
     const isExist = await this.userService.findByName(username);
     if (!isExist) {
       const role = await this.roleService.findByCode(roleCode);
-      await this.userService.create({ username, password, nickName, roleIds: role.id });
+      await this.userService.create({ username, password, nickName, roleIds: [role.id] });
     }
   }
 }

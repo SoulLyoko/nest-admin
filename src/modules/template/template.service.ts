@@ -20,7 +20,7 @@ export class TemplateService {
     return findPage<Template>(this.templateRepository, pageTemplateDto);
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     return this.templateRepository.findOne(id);
   }
 
@@ -28,7 +28,7 @@ export class TemplateService {
     return this.templateRepository.save(createTemplateDto);
   }
 
-  update(id: string, updateTemplateDto: UpdateTemplateDto) {
+  update(id: number, updateTemplateDto: UpdateTemplateDto) {
     return this.templateRepository.update(id, updateTemplateDto);
   }
 

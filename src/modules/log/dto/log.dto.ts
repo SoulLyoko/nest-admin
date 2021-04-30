@@ -4,7 +4,7 @@ import { PageDto } from 'src/common/dto/page.dto';
 
 export class CreateLogDto extends OmitType(Log, ['id']) {}
 
-export class UpdateLogDto extends OmitType(CreateLogDto, []) {}
+export class UpdateLogDto extends CreateLogDto {}
 
 export class FindLogDto extends PartialType(PickType(Log, ['status', 'method'])) {}
 

@@ -2,9 +2,9 @@ import { OmitType, PickType, PartialType, IntersectionType } from '@nestjs/swagg
 import { Dept } from '../entities/dept.entity';
 import { PageDto } from 'src/common/dto/page.dto';
 
-export class CreateDeptDto extends OmitType(Dept, ['id']) {}
+export class CreateDeptDto extends OmitType(Dept, ['id', 'parent', 'children']) {}
 
-export class UpdateDeptDto extends OmitType(CreateDeptDto, []) {}
+export class UpdateDeptDto extends CreateDeptDto {}
 
 export class FindDeptDto extends PartialType(PickType(Dept, ['name'])) {}
 

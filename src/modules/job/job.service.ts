@@ -9,30 +9,30 @@ import { findPage } from 'src/utils';
 export class JobService {
   constructor(
     @InjectRepository(Job)
-    private repository: Repository<Job>
+    private jobRepository: Repository<Job>
   ) {}
 
   findAll(findJobDto: FindJobDto) {
-    return this.repository.find(findJobDto);
+    return this.jobRepository.find(findJobDto);
   }
 
   findPage(pageJobDto: PageJobDto) {
-    return findPage<Job>(this.repository, pageJobDto);
+    return findPage<Job>(this.jobRepository, pageJobDto);
   }
 
-  findOne(id: string) {
-    return this.repository.findOne(id);
+  findOne(id: number) {
+    return this.jobRepository.findOne(id);
   }
 
   create(createJobDto: CreateJobDto) {
-    return this.repository.save(createJobDto);
+    return this.jobRepository.save(createJobDto);
   }
 
-  update(id: string, updateJobDto: UpdateJobDto) {
-    return this.repository.update(id, updateJobDto);
+  update(id: number, updateJobDto: UpdateJobDto) {
+    return this.jobRepository.update(id, updateJobDto);
   }
 
   remove(ids: string) {
-    return this.repository.delete(ids.split(','));
+    return this.jobRepository.delete(ids.split(','));
   }
 }

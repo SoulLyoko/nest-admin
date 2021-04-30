@@ -8,7 +8,7 @@ import { formatDate } from 'src/utils';
 export class CommonColmunEntity {
   @ApiProperty({ description: '主键ID' })
   @PrimaryGeneratedColumn()
-  id: string;
+  id: number;
 
   @ApiProperty({ description: '创建时间' })
   @CreateDateColumn({
@@ -20,7 +20,7 @@ export class CommonColmunEntity {
       from: (value) => formatDate(value)
     }
   })
-  createAt?: string;
+  createTime?: string;
 
   @ApiProperty({ description: '更新时间' })
   @UpdateDateColumn({
@@ -32,5 +32,5 @@ export class CommonColmunEntity {
       from: (value) => formatDate(value)
     }
   })
-  updateAt?: string;
+  updateTime?: string;
 }

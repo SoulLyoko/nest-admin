@@ -61,7 +61,7 @@ export class User extends CommonColmunEntity {
 
   @ApiProperty({ description: '角色ids' })
   @Allow()
-  roleIds?: string;
+  roleIds?: number[];
 
   @ApiProperty({ type: Dept })
   @OneToOne(() => Dept)

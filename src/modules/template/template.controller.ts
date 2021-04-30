@@ -15,7 +15,7 @@ export class TemplateController {
     return this.templateService.findAll(findTemplateDto);
   }
 
-  @Get('/page')
+  @Get('page')
   @Handler({ tag: '获取分页数据', model: Template, resType: 'page' })
   findPage(@Query() pageTemplateDto: PageTemplateDto) {
     return this.templateService.findPage(pageTemplateDto);
@@ -24,7 +24,7 @@ export class TemplateController {
   @Get(':id')
   @Handler({ tag: '获取单条数据', model: Template })
   findOne(@Param('id') id: string) {
-    return this.templateService.findOne(id);
+    return this.templateService.findOne(+id);
   }
 
   @Post()
@@ -36,7 +36,7 @@ export class TemplateController {
   @Put(':id')
   @Handler({ tag: '更新数据' })
   update(@Param('id') id: string, @Body() updateTemplateDto: UpdateTemplateDto) {
-    return this.templateService.update(id, updateTemplateDto);
+    return this.templateService.update(+id, updateTemplateDto);
   }
 
   @Delete(':ids')

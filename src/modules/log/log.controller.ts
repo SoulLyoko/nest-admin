@@ -15,7 +15,7 @@ export class LogController {
     return this.logService.findAll(findLogDto);
   }
 
-  @Get('/page')
+  @Get('page')
   @Handler({ tag: '获取分页数据', model: Log, resType: 'page' })
   findPage(@Query() pageLogDto: PageLogDto) {
     return this.logService.findPage(pageLogDto);
@@ -24,7 +24,7 @@ export class LogController {
   @Get(':id')
   @Handler({ tag: '获取单条数据', model: Log })
   findOne(@Param('id') id: string) {
-    return this.logService.findOne(id);
+    return this.logService.findOne(+id);
   }
 
   @Post()
@@ -36,7 +36,7 @@ export class LogController {
   @Put(':id')
   @Handler({ tag: '更新数据' })
   update(@Param('id') id: string, @Body() updateLogDto: UpdateLogDto) {
-    return this.logService.update(id, updateLogDto);
+    return this.logService.update(+id, updateLogDto);
   }
 
   @Delete(':ids')

@@ -32,7 +32,7 @@ export class UserService {
     });
   }
 
-  findOne(id: string) {
+  findOne(id: number) {
     return this.userRepository.findOne(id);
   }
 
@@ -41,20 +41,28 @@ export class UserService {
   }
 
   async create(createUserDto: CreateUserDto) {
+    const roleIds = this.transformRoleIds(createUserDto.roleIds);
     const user = await this.findByName(createUserDto.username);
     if (user) {
       throw new Exception('已存在相同的用户名');
     }
-    const roles = await this.roleService.findByIds(createUserDto.roleIds);
+    const roles = await this.roleService.findByIds(roleIds);
+    delete createUserDto.roleIds;
     return this.userRepository.save({ ...createUserDto, roles });
   }
 
-  update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: number, updateUserDto: UpdateUserDto) {
+    const roleIds = this.transformRoleIds(updateUserDto.roleIds);
+    const roles = await this.roleService.findByIds(roleIds);
     delete updateUserDto.roleIds;
-    return this.userRepository.update(id, updateUserDto);
+    return this.userRepository.update(id, { ...updateUserDto, roles });
   }
 
   remove(ids: string) {
     return this.userRepository.delete(ids.split(','));
+  }
+
+  transformRoleIds(roleIds: number[] | string[]) {
+    return (roleIds + '').split(',').map((roleId) => parseInt(roleId));
   }
 }
